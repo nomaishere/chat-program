@@ -1,0 +1,4 @@
+/home/plantstoen/netprog/chat-program/build/CMakeFiles/rebuild_cache.dir
+/home/plantstoen/netprog/chat-program/build/CMakeFiles/server.out.dir
+/home/plantstoen/netprog/chat-program/build/CMakeFiles/edit_cache.dir
+/home/plantstoen/netprog/chat-program/build/CMakeFiles/client.out.dir
