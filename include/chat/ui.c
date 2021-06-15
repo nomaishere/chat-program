@@ -40,17 +40,35 @@ void print_client_ui(int step)
         printMiddleLine("  Quit Program: Q or q", 50);
         printMiddleLine("", 50);
         printBoxBottom(50);
-        printf("INPUT> ");
-        fflush(stdout);
+        print_user_input("INPUT");
         break;
 
     case UI_REQUEST_CREATE_CHATROOM_ROOMNAME:
-        printf("Chatroom Name> ");
-        fflush(stdout);
+        print_user_input("CHATROOM NAME");
+
         break;
 
     case UI_REQUEST_CHAT_LIST:
         // TODO
+        break;
+
+    default:
+        break;
+    }
+}
+
+void print_server_ui(int step)
+{
+    switch (step)
+    {
+    case UI_SERVER_MAIN:
+        printBoxTop(70);
+        printMiddleLine("", 70);
+        printMiddleLine("  View User List: 1", 70);
+        printMiddleLine("  Stop Chatting Manager: 2", 70);
+        printMiddleLine("", 70);
+        printBoxBottom(70);
+        print_user_input("INPUT");
         break;
 
     default:
@@ -85,6 +103,26 @@ void print_roomlist_ui(ROOM roomlist[])
     }
     printMiddleLine("", 50);
     printBoxBottom(50);
+}
+
+void print_manager_userlist_ui(USER_FULLDATA userList[])
+{
+    char userData[100] = {
+        0,
+    };
+    printBoxTop(70);
+    printMiddleLine("", 70);
+    for (int i = 0; i < 5; i++)
+    {
+        memset(userData, 0, sizeof(userData));
+        //if (strlen(userList[i].name) != 0)
+        // {
+        sprintf(userData, "  Code: %d  Name: %s  Ip: %s ", i, userList[i].name, userList[i].ip);
+        printMiddleLine(userData, 70);
+        //  }
+    }
+    printMiddleLine("", 70);
+    printBoxBottom(70);
 }
 
 void print_user_input(char *string)

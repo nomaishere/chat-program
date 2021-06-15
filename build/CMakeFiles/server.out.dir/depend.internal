@@ -47,6 +47,7 @@ CMakeFiles/server.out.dir/include/library/utils.c.o
  /home/plantstoen/netprog/chat-program/include/library/utils.c
  /home/plantstoen/netprog/chat-program/include/library/utils.h
 CMakeFiles/server.out.dir/server/chat_server.c.o
+ /home/plantstoen/netprog/chat-program/include/chat/ui.h
  /home/plantstoen/netprog/chat-program/include/data/model.h
  /home/plantstoen/netprog/chat-program/include/data/protocol.h
  /home/plantstoen/netprog/chat-program/include/library/error.h

@@ -172,7 +172,6 @@ int main(int argc, char *argv[])
             break;
 
         default:
-
             if (FD_ISSET(stdin_fd, &readfds))
             {
                 switch (program_state)
@@ -261,12 +260,20 @@ int main(int argc, char *argv[])
                         {
                             puts("SYSTEM: 채팅방을 종료합니다");
                             program_state = UI_MAIN;
+                            chatmode = CHATMODE_CLIENT;
                             print_client_ui(program_state);
+                            for (int i = FIRST_CLIENT_SOCK_FD; i < fd_max + 1; i++)
+                            {
+                                close(i);
+                                FD_CLR(i, &backup_readfds);
+                                if (fd_max == fd_selector)
+                                    fd_max--;
+                            }
                         }
                         else
                         {
                             memset(message_by_serv, 0, sizeof(message_by_serv));
-                            memcpy(message_by_serv, createMessagePacket(keyBuf), MESSAGE_BUF_SIZE);
+                            setServerToClientMessagePacket(message_by_serv, profile.name, keyBuf);
                             for (int i = FIRST_CLIENT_SOCK_FD; i < fd_max + 1; i++)
                             {
                                 if (i == fd_selector)
@@ -275,7 +282,7 @@ int main(int argc, char *argv[])
                             }
                         }
                     }
-                    else
+                    if (chatmode == CHATMODE_CLIENT)
                     {
                         if (strcmp(keyBuf, "q") == 0 || strcmp(keyBuf, "Q") == 0)
                         {
@@ -315,6 +322,11 @@ int main(int argc, char *argv[])
 
                 case CODE_SYSTEM_MESSAGE:
                     printf("SYSTEM: %s\n", remove_code_buf); // 시스템메세지 일때는 시스템메세지 원본만(앞에 SYSTEM: 떼고)
+                    fflush(stdout);
+                    break;
+
+                case CODE_MESSAGE:
+                    printf("%s\n", remove_code_buf);
                     fflush(stdout);
                     break;
 

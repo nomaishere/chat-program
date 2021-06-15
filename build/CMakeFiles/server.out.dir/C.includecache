@@ -185,4 +185,6 @@ sys/types.h
 /home/plantstoen/netprog/chat-program/include/data/protocol.h
 ../include/library/rooms.h
 /home/plantstoen/netprog/chat-program/include/library/rooms.h
+../include/chat/ui.h
+/home/plantstoen/netprog/chat-program/include/chat/ui.h
 

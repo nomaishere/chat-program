@@ -51,7 +51,7 @@ int updateUserList(USER *user, USER_FULLDATA *userList, int userIndex[], int max
                 strcpy((userList + i)->ip, user->ip);
                 (userList + i)->statusCode = user->statusCode;
                 time(&(userList + i)->lastHeartBeat);
-                printf("ADD USER: [ in[%d], name: %s | ip: %s ]\n", i, user->name, user->ip);
+                printf("ADD USER: [ in[%d], name: %s | ip: %s ]\n", i, (userList + i)->name, (userList + i)->ip);
                 fflush(stdout);
                 return USER_ADDED;
             }

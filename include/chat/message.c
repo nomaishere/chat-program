@@ -60,6 +60,13 @@ void createSystemMessage(char sockbuf[], char name[], int messageType)
     }
 }
 
+void setServerToClientMessagePacket(char sockbuf[], char name[], char message[])
+{
+    memset(sockbuf, 0, MESSAGE_BUF_SIZE);
+    setHeader(sockbuf, MESSAGE_BUF_SIZE, CODE_MESSAGE);
+    sprintf(sockbuf + CODE_SIZE, "%s님 : %s", name, message);
+}
+
 void setEchoUserMessage(char sockbuf[], char name[], char message[])
 {
     memset(sockbuf, 0, MESSAGE_BUF_SIZE);

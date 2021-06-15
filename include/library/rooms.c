@@ -23,7 +23,7 @@ int addRoom(ROOM *room, ROOM *roomList, int roomIndex[], int max_room)
             strcpy((roomList + i)->hostName, room->hostName);
             strcpy((roomList + i)->hostIp, room->hostIp);
             strcpy((roomList + i)->hostPort, room->hostPort);
-            printf("SYSTEM: [%s]님의 새로운 채팅방 [%s]생성\n", room->hostName, room->roomName, );
+            printf("SYSTEM: [%s]님의 새로운 채팅방 [%s]생성\n", room->hostName, room->roomName);
             fflush(stdout);
             return SUCCESS;
         }

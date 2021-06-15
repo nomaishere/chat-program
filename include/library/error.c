@@ -47,7 +47,7 @@ void error_handling(int errorCode, ...)
         break;
 
     case TCPSOCK_BIND_ERROR:
-        printf("ERROR[%d]: TCP소켓 바인딩에 실패햐였습니다.", TCPSOCK_CREATE_ERROR);
+        printf("ERROR[%d]: TCP소켓 바인딩에 실패햐였습니다. 다른 포트주소로 시도해주세요.", TCPSOCK_CREATE_ERROR);
         exit(0);
         break;
 

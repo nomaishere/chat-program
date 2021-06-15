@@ -19,6 +19,8 @@ char *createEchoUserMessage(char name[], char message[]);
 
 void createSystemMessage(char sockbuf[], char name[], int messageType);
 
+void setServerToClientMessagePacket(char sockbuf[], char name[], char message[]);
+
 void setEchoUserMessage(char sockbuf[], char name[], char message[]);
 
 #endif

@@ -76,6 +76,10 @@ int main()
     set_room_receiver_sock(&room_sock, &room_sadr, &room_cadr, 5002);
     printf("SYSTEM: Room 소켓 생성 성공\n");
 
+    char keyBuf[50] = {
+        0,
+    };
+
     FD_ZERO(&readfds);
     FD_SET(heartbeat_sock, &readfds);
     FD_SET(room_sock, &readfds);
@@ -84,6 +88,7 @@ int main()
     timeout.tv_usec = 0;
     backup_readfds = readfds;
 
+    print_server_ui(UI_SERVER_MAIN);
     while (1)
     {
         readfds = backup_readfds;
@@ -103,6 +108,20 @@ int main()
             // NOTE 유저 소켓
             if (FD_ISSET(stdin_fd, &readfds))
             {
+                scanf(" %[^\n]", keyBuf);
+                switch (atoi(keyBuf))
+                {
+                case 1:
+                    print_manager_userlist_ui(userList);
+                    break;
+
+                case 2:
+                    puts("oh byby");
+                    break;
+
+                default:
+                    break;
+                }
             }
             if (FD_ISSET(heartbeat_sock, &readfds))
             {

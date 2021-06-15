@@ -46,6 +46,7 @@ CMakeFiles/server.out.dir/include/library/utils.c.o: ../include/data/model.h
 CMakeFiles/server.out.dir/include/library/utils.c.o: ../include/library/utils.c
 CMakeFiles/server.out.dir/include/library/utils.c.o: ../include/library/utils.h
 
+CMakeFiles/server.out.dir/server/chat_server.c.o: ../include/chat/ui.h
 CMakeFiles/server.out.dir/server/chat_server.c.o: ../include/data/model.h
 CMakeFiles/server.out.dir/server/chat_server.c.o: ../include/data/protocol.h
 CMakeFiles/server.out.dir/server/chat_server.c.o: ../include/library/error.h

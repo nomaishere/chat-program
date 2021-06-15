@@ -8,6 +8,8 @@
 #define UI_REQUEST_CHAT_LIST 103
 #define UI_IN_CHATTING 104
 
+#define UI_SERVER_MAIN 201
+
 #include <stdio.h>
 #include <string.h>
 #include "../library/utils.h"
@@ -23,7 +25,11 @@ void printBoxBottom(int a_space_count);
 
 void print_client_ui(int step);
 
+void print_server_ui(int step);
+
 void print_roomlist_ui(ROOM roomlist[]);
+
+void print_manager_userlist_ui(USER_FULLDATA userList[]);
 
 void print_user_input(char *string);
 
