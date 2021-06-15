@@ -62,7 +62,12 @@ void error_handling(int errorCode, ...)
         break;
 
     case CANNOT_GET_MYIP:
-        printf("ERROR[%d]: 자신의 IP를 가져오는데 실패하였습니다.", INVALID_NET_MODE);
+        printf("ERROR[%d]: 자신의 IP를 가져오는데 실패하였습니다.", CANNOT_GET_MYIP);
+        exit(0);
+        break;
+
+    case SELECT_ERROR:
+        printf("ERROR[%d]: select() 함수가 -1을 반환합니다.", SELECT_ERROR);
         exit(0);
         break;
 

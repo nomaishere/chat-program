@@ -33,6 +33,18 @@ sys/types.h
 /home/plantstoen/netprog/chat-program/include/chat/ui.h
 ../include/data/protocol.h
 /home/plantstoen/netprog/chat-program/include/data/protocol.h
+../include/library/rooms.h
+/home/plantstoen/netprog/chat-program/include/library/rooms.h
+../include/chat/message.h
+/home/plantstoen/netprog/chat-program/include/chat/message.h
+
+/home/plantstoen/netprog/chat-program/include/chat/message.c
+message.h
+/home/plantstoen/netprog/chat-program/include/chat/message.h
+
+/home/plantstoen/netprog/chat-program/include/chat/message.h
+../data/protocol.h
+/home/plantstoen/netprog/chat-program/include/data/protocol.h
 
 /home/plantstoen/netprog/chat-program/include/chat/ui.c
 ui.h
@@ -149,6 +161,8 @@ time.h
 /home/plantstoen/netprog/chat-program/include/data/model.h
 error.h
 /home/plantstoen/netprog/chat-program/include/library/error.h
+../data/protocol.h
+/home/plantstoen/netprog/chat-program/include/data/protocol.h
 
 /home/plantstoen/netprog/chat-program/include/library/users.c
 users.h

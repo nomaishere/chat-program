@@ -163,6 +163,36 @@ client/chat_client.c.s:
 	$(MAKE) -f CMakeFiles/client.out.dir/build.make CMakeFiles/client.out.dir/client/chat_client.c.s
 .PHONY : client/chat_client.c.s
 
+include/chat/message.o: include/chat/message.c.o
+
+.PHONY : include/chat/message.o
+
+# target to build an object file
+include/chat/message.c.o:
+	$(MAKE) -f CMakeFiles/server.out.dir/build.make CMakeFiles/server.out.dir/include/chat/message.c.o
+	$(MAKE) -f CMakeFiles/client.out.dir/build.make CMakeFiles/client.out.dir/include/chat/message.c.o
+.PHONY : include/chat/message.c.o
+
+include/chat/message.i: include/chat/message.c.i
+
+.PHONY : include/chat/message.i
+
+# target to preprocess a source file
+include/chat/message.c.i:
+	$(MAKE) -f CMakeFiles/server.out.dir/build.make CMakeFiles/server.out.dir/include/chat/message.c.i
+	$(MAKE) -f CMakeFiles/client.out.dir/build.make CMakeFiles/client.out.dir/include/chat/message.c.i
+.PHONY : include/chat/message.c.i
+
+include/chat/message.s: include/chat/message.c.s
+
+.PHONY : include/chat/message.s
+
+# target to generate assembly for a file
+include/chat/message.c.s:
+	$(MAKE) -f CMakeFiles/server.out.dir/build.make CMakeFiles/server.out.dir/include/chat/message.c.s
+	$(MAKE) -f CMakeFiles/client.out.dir/build.make CMakeFiles/client.out.dir/include/chat/message.c.s
+.PHONY : include/chat/message.c.s
+
 include/chat/ui.o: include/chat/ui.c.o
 
 .PHONY : include/chat/ui.o
@@ -473,6 +503,9 @@ help:
 	@echo "... client/chat_client.o"
 	@echo "... client/chat_client.i"
 	@echo "... client/chat_client.s"
+	@echo "... include/chat/message.o"
+	@echo "... include/chat/message.i"
+	@echo "... include/chat/message.s"
 	@echo "... include/chat/ui.o"
 	@echo "... include/chat/ui.i"
 	@echo "... include/chat/ui.s"

@@ -15,7 +15,10 @@
 #include <time.h>
 #include "../data/model.h"
 #include "error.h"
+#include "../data/protocol.h"
 
 int addRoom(ROOM *room, ROOM *roomList, int roomIndex[], int max_room);
+
+char *createRoomRequestPacket(char hostName[], char roomName[], char hostIp[], char hostPort[]);
 
 #endif

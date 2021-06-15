@@ -10,6 +10,7 @@
 #include "../include/data/model.h"
 #include "../include/data/protocol.h"
 #include "../include/library/rooms.h"
+#include "../include/chat/ui.h"
 
 int main()
 {
@@ -51,7 +52,7 @@ int main()
     };
     ROOM tempRoom;
 
-    int code; // TODO 적당한 위치 찾기
+    int code;
 
     char message[ROOM_BUF_SIZE] = {
         0,
@@ -59,13 +60,15 @@ int main()
 
     int len;
 
+    int netmode = WIRELESS_MODE;
+
     // TODO Multicast Grout IP, PORT, UDP PORT, NETMODE 전부 입력받게 하기
     printf("SYSTEM: 배달의민조 채팅 서버 시작중...\n");
-    printf("SYSTEM: 서버 IP - %s\n", getMyIp(WIRELESS_MODE));
+    printf("SYSTEM: 서버 IP - %s\n", getMyIp(netmode));
 
     create_roominfo_sender_sock(&roominfo_sock, &multi_sadr, "239.0.130.1", 9001);
     printf("SYSTEM: Roominfo Sender 소켓 생성 성공\n");
-    strcpy(roominfo_buf, getMyIp(WIRELESS_MODE)); // TODO 유저 목록까지 보내는거 만들기
+    strcpy(roominfo_buf, getMyIp(netmode));
 
     create_heartbeat_receiver_sock(&heartbeat_sock, &udp_sadr, &udp_cadr, 5001);
     printf("SYSTEM: Heartbeat Receiver 소켓 생성 성공\n");
@@ -98,6 +101,9 @@ int main()
             break;
         default:
             // NOTE 유저 소켓
+            if (FD_ISSET(stdin_fd, &readfds))
+            {
+            }
             if (FD_ISSET(heartbeat_sock, &readfds))
             {
                 recvfrom(heartbeat_sock, heartbeat_buf, HEARTBEAT_BUF_SIZE, 0,
@@ -115,8 +121,6 @@ int main()
                          (struct sockaddr *)&room_cadr, &room_cadr_size);
                 code = getCode(read_room_buf);
                 dropHeader(roomsock_buf, read_room_buf, ROOMINFO_BUF_SIZE);
-                memcpy(&tempRoom, roomsock_buf, sizeof(ROOM));
-                printf("SYSTEM: New chatroom is created(Host-%s, RoomName-%s, HostIP-%s)\n", tempRoom.hostName, tempRoom.roomName, tempRoom.hostIp);
                 memcpy(&tempRoom, roomsock_buf, sizeof(ROOM));
                 switch (code)
                 {

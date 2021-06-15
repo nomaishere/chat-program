@@ -3,12 +3,20 @@
 
 CMakeFiles/client.out.dir/client/chat_client.c.o
  /home/plantstoen/netprog/chat-program/client/chat_client.c
+ /home/plantstoen/netprog/chat-program/include/chat/message.h
  /home/plantstoen/netprog/chat-program/include/chat/ui.h
  /home/plantstoen/netprog/chat-program/include/data/model.h
  /home/plantstoen/netprog/chat-program/include/data/protocol.h
  /home/plantstoen/netprog/chat-program/include/library/error.h
  /home/plantstoen/netprog/chat-program/include/library/io.h
  /home/plantstoen/netprog/chat-program/include/library/nettools.h
+ /home/plantstoen/netprog/chat-program/include/library/rooms.h
+ /home/plantstoen/netprog/chat-program/include/library/utils.h
+CMakeFiles/client.out.dir/include/chat/message.c.o
+ /home/plantstoen/netprog/chat-program/include/chat/message.c
+ /home/plantstoen/netprog/chat-program/include/chat/message.h
+ /home/plantstoen/netprog/chat-program/include/data/model.h
+ /home/plantstoen/netprog/chat-program/include/data/protocol.h
  /home/plantstoen/netprog/chat-program/include/library/utils.h
 CMakeFiles/client.out.dir/include/chat/ui.c.o
  /home/plantstoen/netprog/chat-program/include/chat/ui.c
@@ -35,9 +43,11 @@ CMakeFiles/client.out.dir/include/library/nettools.c.o
  /home/plantstoen/netprog/chat-program/include/library/nettools.h
 CMakeFiles/client.out.dir/include/library/rooms.c.o
  /home/plantstoen/netprog/chat-program/include/data/model.h
+ /home/plantstoen/netprog/chat-program/include/data/protocol.h
  /home/plantstoen/netprog/chat-program/include/library/error.h
  /home/plantstoen/netprog/chat-program/include/library/rooms.c
  /home/plantstoen/netprog/chat-program/include/library/rooms.h
+ /home/plantstoen/netprog/chat-program/include/library/utils.h
 CMakeFiles/client.out.dir/include/library/users.c.o
  /home/plantstoen/netprog/chat-program/include/data/model.h
  /home/plantstoen/netprog/chat-program/include/library/error.h

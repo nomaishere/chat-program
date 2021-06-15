@@ -9,6 +9,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/client.out.dir/include/library/rooms.c.o"
   "CMakeFiles/client.out.dir/include/library/io.c.o"
   "CMakeFiles/client.out.dir/include/chat/ui.c.o"
+  "CMakeFiles/client.out.dir/include/chat/message.c.o"
   "client.out.pdb"
   "client.out"
 )

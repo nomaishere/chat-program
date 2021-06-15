@@ -32,7 +32,7 @@ void print_client_ui(int step)
 {
     switch (step)
     {
-    case MAIN:
+    case UI_MAIN:
         printBoxTop(50);
         printMiddleLine("", 50);
         printMiddleLine("  Create Chatting Room: 1", 50);
@@ -85,6 +85,10 @@ void print_roomlist_ui(ROOM roomlist[])
     }
     printMiddleLine("", 50);
     printBoxBottom(50);
-    printf("ROOM CODE> ");
+}
+
+void print_user_input(char *string)
+{
+    printf("%s> ", string);
     fflush(stdout);
 }

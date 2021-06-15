@@ -12,6 +12,7 @@ set( LIB_FILES
     include/library/rooms.c
     include/library/io.c
     include/chat/ui.c
+    include/chat/message.c
 )
 
 add_executable( server.out server/chat_server.c ${LIB_FILES})

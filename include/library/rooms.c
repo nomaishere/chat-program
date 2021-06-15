@@ -23,10 +23,25 @@ int addRoom(ROOM *room, ROOM *roomList, int roomIndex[], int max_room)
             strcpy((roomList + i)->hostName, room->hostName);
             strcpy((roomList + i)->hostIp, room->hostIp);
             strcpy((roomList + i)->hostPort, room->hostPort);
-            printf("SYSTEM[ROOM]: [ in[%d], roomName: %s | hostName: %s | hostIp: %s | HostPort: %s ]\n", i, room->roomName, room->hostName, room->hostIp, room->hostPort);
+            printf("SYSTEM: [%s]님의 새로운 채팅방 [%s]생성\n", room->hostName, room->roomName, );
             fflush(stdout);
             return SUCCESS;
         }
     }
     return UNKNOWN_FAIL;
+}
+
+char *createRoomRequestPacket(char hostName[], char roomName[], char hostIp[], char hostPort[])
+{
+    static char room_packet[1024] = {
+        0,
+    };
+    ROOM myroom;
+    strcpy(myroom.hostName, hostName);
+    strcpy(myroom.roomName, roomName);
+    strcpy(myroom.hostIp, hostIp);
+    strcpy(myroom.hostPort, hostPort);
+    setHeader(room_packet, ROOM_BUF_SIZE, CODE_CREATE_ROOM_REQUEST);
+    memcpy(room_packet + CODE_SIZE, &myroom, sizeof(ROOM));
+    return room_packet;
 }

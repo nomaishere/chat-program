@@ -5,6 +5,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
   "/home/plantstoen/netprog/chat-program/client/chat_client.c" "/home/plantstoen/netprog/chat-program/build/CMakeFiles/client.out.dir/client/chat_client.c.o"
+  "/home/plantstoen/netprog/chat-program/include/chat/message.c" "/home/plantstoen/netprog/chat-program/build/CMakeFiles/client.out.dir/include/chat/message.c.o"
   "/home/plantstoen/netprog/chat-program/include/chat/ui.c" "/home/plantstoen/netprog/chat-program/build/CMakeFiles/client.out.dir/include/chat/ui.c.o"
   "/home/plantstoen/netprog/chat-program/include/data/model.c" "/home/plantstoen/netprog/chat-program/build/CMakeFiles/client.out.dir/include/data/model.c.o"
   "/home/plantstoen/netprog/chat-program/include/data/protocol.c" "/home/plantstoen/netprog/chat-program/build/CMakeFiles/client.out.dir/include/data/protocol.c.o"

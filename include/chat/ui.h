@@ -1,7 +1,7 @@
 #ifndef CHAT
 #define CHAT
 
-#define MAIN 100
+#define UI_MAIN 100
 #define UI_REQUEST_CREATE_CHATROOM_ROOMNAME 101
 #define UI_REQUEST_CREATE_CHATROOM_PORT 105
 #define UI_WAIT_CREATE_CHATROOM 102
@@ -24,5 +24,7 @@ void printBoxBottom(int a_space_count);
 void print_client_ui(int step);
 
 void print_roomlist_ui(ROOM roomlist[]);
+
+void print_user_input(char *string);
 
 #endif

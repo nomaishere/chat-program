@@ -16,6 +16,8 @@
 #define INVALID_NET_MODE 920
 #define CANNOT_GET_MYIP 921
 
+#define SELECT_ERROR 931
+
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdlib.h>
