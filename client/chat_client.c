@@ -94,22 +94,36 @@ int main(int argc, char *argv[])
 
     set_room_sender_sock(&room_sock, &room_serv_adr, &room_from_adr, chat_serv_ip, 5002); // 이 포트도 지정하게 하기
 
-    FD_ZERO(&readfds);
-    FD_SET(room_sock, &readfds);
-    FD_SET(stdin_fd, &readfds);
-    timeout.tv_sec = 1;
-    timeout.tv_usec = 0;
-    backup_readfds = readfds;
-
-    printf("ROOMSOCK_FD: %d\n", room_sock);
-    int fd_max = room_sock;
-    printf("fdmax: %d\n", fd_max);
-
-    print_client_ui(program_state);
-
     int len;
     int code;
     int fd_selector;
+
+    printf("PORT> ");
+    scanf(" %[^\n]", tempRoomPort);
+
+    tcpmulti_serv_sock = socket(PF_INET, SOCK_STREAM, 0);
+    memset(&tcpmulti_serv_adr, 0, sizeof(tcpmulti_serv_adr));
+    tcpmulti_serv_adr.sin_family = AF_INET;
+    tcpmulti_serv_adr.sin_addr.s_addr = htonl(INADDR_ANY);
+    tcpmulti_serv_adr.sin_port = htons(atoi(tempRoomPort));
+
+    if (bind(tcpmulti_serv_sock, (struct sockaddr *)&tcpmulti_serv_adr, sizeof(tcpmulti_serv_adr)) == -1)
+        error_handling(TCPSOCK_BIND_ERROR);
+
+    if (listen(tcpmulti_serv_sock, 5) == -1)
+        error_handling(TCPSOCK_LISTEN_ERROR);
+
+    print_client_ui(program_state);
+
+    FD_ZERO(&readfds);
+    FD_SET(room_sock, &readfds);
+    FD_SET(stdin_fd, &readfds);
+    FD_SET(tcpmulti_serv_sock, &readfds); // ANCHOR 서버용 소켓 감시대상 등록
+    timeout.tv_sec = 1;
+    timeout.tv_usec = 0;
+    backup_readfds = readfds;
+    int fd_max = tcpmulti_serv_sock;
+    printf("fdmax: %d\n", fd_max);
 
     while (1)
     {
@@ -119,8 +133,8 @@ int main(int argc, char *argv[])
         int read_len;
 
         readfds = backup_readfds;
-        timeout.tv_sec = 1;
-        timeout.tv_usec = 0;
+        //timeout.tv_sec = 1;
+        //timeout.tv_usec = 0;
         state = select(fd_max + 1, &readfds, (fd_set *)0, (fd_set *)0, &timeout);
         switch (state)
         {
@@ -129,13 +143,16 @@ int main(int argc, char *argv[])
             break;
 
         case 0:
+            printf("fdmax: %d\n", fd_max);
+            fflush(stdout);
             memcpy(heartbeat_packet, &profile, sizeof(USER));
             sendto(heartbeat_sock, heartbeat_packet, sizeof(heartbeat_packet), 0, (struct sockaddr *)&heartbeat_serv_adr, sizeof(heartbeat_serv_adr));
-            //timeout.tv_sec = 1;
-            //timeout.tv_usec = 0;
+            timeout.tv_sec = 1;
+            timeout.tv_usec = 0;
             break;
 
         default:
+            //puts("something is change!");
             if (FD_ISSET(stdin_fd, &readfds))
             {
                 switch (program_state)
@@ -175,12 +192,32 @@ int main(int argc, char *argv[])
 
                 case UI_REQUEST_CREATE_CHATROOM_ROOMNAME:
                     scanf(" %[^\n]", keyBuf);
-                    program_state = UI_REQUEST_CREATE_CHATROOM_PORT;
-                    printf("Chatroom Port> ");
-                    fflush(stdout);
                     memcpy(tempRoomName, keyBuf, sizeof(tempRoomName));
+
+                    // SECTION
+                    strcpy(myroom.hostName, profile.name);
+                    strcpy(myroom.roomName, tempRoomName);
+                    strcpy(myroom.hostIp, getMyIp(WIRELESS_MODE));
+                    strcpy(myroom.hostPort, tempRoomPort);
+                    setHeader(room_packet, ROOMINFO_BUF_SIZE, CODE_CREATE_ROOM_REQUEST);
+                    memcpy(room_packet + CODE_SIZE, &myroom, sizeof(ROOM));
+                    len = sendto(room_sock, room_packet, sizeof(room_packet) + sizeof(int), 0, (struct sockaddr *)&room_serv_adr, sizeof(room_serv_adr));
+                    program_state = UI_WAIT_CREATE_CHATROOM;
+                    memset(room_packet, 0, ROOM_BUF_SIZE);
+                    recvfrom(room_sock, room_packet, ROOM_BUF_SIZE, 0,
+                             0, 0);
+                    code = getCode(room_packet);
+                    if (code = CODE_CREATE_ROOM_SUCCESS)
+                        puts("SYSTEM: create chatroom successfully");
+                    // !SECTION
+
+                    program_state = UI_IN_CHATTING;
+                    memset(keyBuf, 0, sizeof(keyBuf));
+                    continue;
+                    break;
                     break;
 
+                    /*
                 case UI_REQUEST_CREATE_CHATROOM_PORT:
                     scanf(" %[^\n]", keyBuf);
                     memcpy(tempRoomPort, keyBuf, sizeof(tempRoomPort));
@@ -203,67 +240,58 @@ int main(int argc, char *argv[])
                     // !SECTION
 
                     // NOTE TCP 멀티플렉싱 서버를 생성하기
-                    tcpmulti_serv_sock = socket(PF_INET, SOCK_STREAM, 0);
-                    memset(&tcpmulti_serv_adr, 0, sizeof(tcpmulti_serv_adr));
-                    tcpmulti_serv_adr.sin_family = AF_INET;
-                    tcpmulti_serv_adr.sin_addr.s_addr = htonl(INADDR_ANY);
-                    tcpmulti_serv_adr.sin_port = htons(atoi(tempRoomPort));
 
-                    if (bind(tcpmulti_serv_sock, (struct sockaddr *)&tcpmulti_serv_adr, sizeof(tcpmulti_serv_adr)) == -1)
-                        error_handling(TCPSOCK_BIND_ERROR);
-
-                    if (listen(tcpmulti_serv_sock, 5) == -1)
-                        error_handling(TCPSOCK_LISTEN_ERROR);
-
-                    FD_SET(tcpmulti_serv_sock, &readfds); // ANCHORE 서버용 소켓 감시대상 등록
+                    FD_SET(tcpmulti_serv_sock, &readfds); // ANCHOR 서버용 소켓 감시대상 등록
                     printf("ADD HERE: %d\n", tcpmulti_serv_sock);
                     fflush(stdout);
                     fd_max = tcpmulti_serv_sock;
                     program_state = UI_IN_CHATTING;
                     memset(keyBuf, 0, sizeof(keyBuf));
+                    continue;
                     break;
+                    */
 
                 case UI_IN_CHATTING:
                     scanf(" %[^\n]", keyBuf);
+                    puts(keyBuf);
                     break;
 
                 default:
                     break;
                 }
             }
-            puts("newSearch!");
             for (fd_selector = 0; fd_selector < fd_max + 1; fd_selector++)
             {
-                printf("NowFD: %d", fd_selector);
-                fflush(stdout);
-                // 검사 갯수만큼 루프문 돌기
-                printf("%d: FD- %d\n", fd_selector, FD_ISSET(fd_selector, &readfds));
+                //printf("NowFD[%d]: %d\n", fd_selector, FD_ISSET(fd_selector, &readfds));
 
                 if (FD_ISSET(fd_selector, &readfds) == 0) // FD_ISSET에서 0이면 건너뜀
                 {
-                    printf("%d not change\n", fd_selector);
-                    fflush(stdout);
                     continue;
                 }
                 else
                 {
                     if (fd_selector == stdin_fd) // stdin_fd인경우 건너뜀
                     {
-                        printf("%d is stdin_fd\n", fd_selector);
-                        fflush(stdout);
                         continue;
                     }
-                    if (fd_selector == room_sock) // roomsofk_fd인경우 건너뜀
+                    if (fd_selector == roominfo_sock) // roominfo_sock인경우 건너뜀
                     {
-                        printf("%d is room sock\n", fd_selector);
-                        fflush(stdout);
+                        continue;
+                    }
+                    if (fd_selector == room_sock) // roomsock인경우 건너뜀
+                    {
+                        continue;
+                    }
+                    if (fd_selector == heartbeat_sock) // heartbeat_sock인경우 건너뜀
+                    {
                         continue;
                     }
 
                     if (fd_selector != tcpmulti_serv_sock)
                     {
                         // 클라이언트 소켓이라면
-                        puts("client socket detected");
+                        printf("client socket detected %d", fd_selector);
+                        fflush(stdout);
                         read_len = read(fd_selector, message, MESSAGE_BUF_SIZE);
                         if (read_len > 0)
                         {
@@ -282,7 +310,6 @@ int main(int argc, char *argv[])
                     {
                         // 서버 소켓이면, 연결
                         puts("server socket detected");
-
                         tcpmulti_clnt_adr_size = sizeof(tcpmulti_clnt_addr);
                         tcpmulti_clnt_sock = accept(tcpmulti_serv_sock, (struct sockaddr *)&tcpmulti_clnt_addr, &tcpmulti_clnt_adr_size);
                         if (tcpmulti_clnt_sock == -1)
@@ -292,6 +319,7 @@ int main(int argc, char *argv[])
                             fd_max = tcpmulti_clnt_sock;
                         printf("SYSTEM: Connect New Client: %d \n", tcpmulti_clnt_sock);
                         fflush(stdout);
+                        break;
                     }
                     else
                     {
