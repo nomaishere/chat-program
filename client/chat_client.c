@@ -40,11 +40,6 @@ int main(int argc, char *argv[])
     int netmode = WIRELESS_MODE;
     int chatmode = CHATMODE_CLIENT;
 
-    USER profile;
-    strcpy(profile.name, argv[1]);        // TODO 이릅 입력받게 하기
-    strcpy(profile.ip, getMyIp(netmode)); // TODO LAN/WIRELESS 입력받게 하기
-    profile.statusCode = 200;
-
     USER tempUser;
 
     ROOM myroom;
@@ -60,6 +55,9 @@ int main(int argc, char *argv[])
         0,
     };
     char tempRoomPort[100] = {
+        0,
+    };
+    char tempUserName[30] = {
         0,
     };
     int keyIndex = 0;
@@ -88,6 +86,18 @@ int main(int argc, char *argv[])
     int code;
     int roomCode;
 
+    print_user_input("NAME");
+    scanf(" %[^\n]", tempUserName);
+    print_user_input("PORT");
+    scanf(" %[^\n]", tempRoomPort);
+    print_user_input("NETMODE");
+    scanf("%d", &netmode);
+
+    USER profile;
+    strcpy(profile.name, tempUserName);
+    strcpy(profile.ip, getMyIp(netmode)); // TODO LAN/WIRELESS 입력받게 하기
+    profile.statusCode = 200;
+
     printf("SYSTEM: 배달의민조 채팅 클라이언트 시작중...\n");
     printf("SYSTEM: 내 IP - %s\n", getMyIp(netmode));
 
@@ -109,9 +119,6 @@ int main(int argc, char *argv[])
     printf("SYSTEM: 채팅 서버에 등록 성공\n");
 
     set_room_sender_sock(&room_sock, &room_serv_adr, &room_from_adr, chat_serv_ip, 5002); // 이 포트도 지정하게 하기
-
-    print_user_input("PORT");
-    scanf(" %[^\n]", tempRoomPort);
 
     int tcpmulti_serv_sock;
     struct sockaddr_in tcpmulti_serv_adr;

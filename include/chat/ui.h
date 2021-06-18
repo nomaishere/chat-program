@@ -10,6 +10,9 @@
 
 #define UI_SERVER_MAIN 201
 
+#define UI_INPUTREQUEST_NAME 301
+#define UI_INPUTREQUEST_PORT 302
+
 #include <stdio.h>
 #include <string.h>
 #include "../library/utils.h"
@@ -30,6 +33,8 @@ void print_server_ui(int step);
 void print_roomlist_ui(ROOM roomlist[]);
 
 void print_manager_userlist_ui(USER_FULLDATA userList[]);
+
+void print_oneline_box(char *string);
 
 void print_user_input(char *string);
 

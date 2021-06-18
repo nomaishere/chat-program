@@ -125,6 +125,13 @@ void print_manager_userlist_ui(USER_FULLDATA userList[])
     printBoxBottom(70);
 }
 
+void print_oneline_box(char *string)
+{
+    printBoxTop(50);
+    printMiddleLine(string, 50);
+    printBoxBottom(50);
+}
+
 void print_user_input(char *string)
 {
     printf("%s> ", string);

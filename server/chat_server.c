@@ -62,6 +62,9 @@ int main()
 
     int netmode = WIRELESS_MODE;
 
+    print_user_input("NETMODE");
+    scanf("%d", &netmode);
+
     // TODO Multicast Grout IP, PORT, UDP PORT, NETMODE 전부 입력받게 하기
     printf("SYSTEM: 배달의민조 채팅 서버 시작중...\n");
     printf("SYSTEM: 서버 IP - %s\n", getMyIp(netmode));
